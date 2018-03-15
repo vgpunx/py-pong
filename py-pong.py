@@ -9,7 +9,7 @@ RED = (255, 0, 0)
 pygame.init()
 
 # Set the width and height of the screen [width, height)
-size = (700, 500)
+size = (1280, 720)
 screen = pygame.display.set_mode(size)
 
 # Title bar text
