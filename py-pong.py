@@ -35,7 +35,7 @@ while not done:
     # If you want a background image, replace this clear with blit'ing the
     # background image.
 
-    screen.fill(WHITE)
+    screen.fill(BLACK)
 
     # Drawing code
 
