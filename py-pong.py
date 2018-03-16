@@ -1,4 +1,5 @@
 import pygame
+from paddle import draw_paddle
 
 # Defining colors
 BLACK = (0, 0, 0)
@@ -38,6 +39,7 @@ while not done:
     screen.fill(BLACK)
 
     # Drawing code
+    draw_paddle(screen, 15, 15)
 
     # Update the screen with the draw
     pygame.display.flip()
