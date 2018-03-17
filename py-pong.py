@@ -1,5 +1,5 @@
 import pygame
-from paddle import draw_paddle
+from paddle import Paddle
 
 # Defining colors
 BLACK = (0, 0, 0)
@@ -22,6 +22,13 @@ done = False
 # Screen update
 clock = pygame.time.Clock()
 
+# Group of all sprites
+all_sprites = pygame.sprite.Group()
+
+player = Paddle()
+
+all_sprites.add(player)
+
 # Main game loop
 while not done:
     # main event loop
@@ -33,13 +40,19 @@ while not done:
 
     # Clear the screen
 
+    # update all_sprites
+    all_sprites.update()
+
     # If you want a background image, replace this clear with blit'ing the
     # background image.
 
     screen.fill(BLACK)
 
     # Drawing code
-    draw_paddle(screen, 15, 15)
+    # draw_paddle(screen, 15, 15) # old version - queue for removal
+
+    # draw all_sprites group to the screen
+    all_sprites.draw(screen)
 
     # Update the screen with the draw
     pygame.display.flip()
