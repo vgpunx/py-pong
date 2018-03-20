@@ -7,10 +7,14 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
+# Constants
+SCREEN_X = 1024
+SCREEN_Y = 576
+
 pygame.init()
 
 # Set the width and height of the screen [width, height)
-size = (1024, 576)
+size = (SCREEN_X, SCREEN_Y)
 screen = pygame.display.set_mode(size)
 
 # Title bar text
@@ -26,8 +30,10 @@ clock = pygame.time.Clock()
 all_sprites = pygame.sprite.Group()
 
 player = Paddle()
+comp = Paddle(SCREEN_X-20, SCREEN_Y-50)
 
 all_sprites.add(player)
+all_sprites.add(comp)
 
 # Main game loop
 while not done:
@@ -49,7 +55,6 @@ while not done:
     screen.fill(BLACK)
 
     # Drawing code
-    # draw_paddle(screen, 15, 15) # old version - queue for removal
 
     # draw all_sprites group to the screen
     all_sprites.draw(screen)
