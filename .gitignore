@@ -4,3 +4,5 @@
 \.idea/workspace\.xml
 
 \.idea/py-pong\.iml
+
+__pycache__/paddle\.cpython-36\.pyc
