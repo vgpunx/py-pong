@@ -29,11 +29,11 @@ clock = pygame.time.Clock()
 # Group of all sprites
 all_sprites = pygame.sprite.Group()
 
-player = Paddle()
-comp = Paddle(SCREEN_X-20, SCREEN_Y-50)
+player1 = Paddle()
+player2 = Paddle(SCREEN_X-20, SCREEN_Y-50)
 
-all_sprites.add(player)
-all_sprites.add(comp)
+all_sprites.add(player1)
+all_sprites.add(player2)
 
 # Main game loop
 while not done:
