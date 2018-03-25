@@ -1,7 +1,7 @@
-import pygame
+from constants import *
 from player1 import *
 from player2 import *
-from constants import *
+from ball import *
 
 pygame.init()
 
@@ -23,9 +23,11 @@ all_sprites = pygame.sprite.Group()
 
 player1 = Player1()
 player2 = Player2()
+ball = Ball()
 
 all_sprites.add(player1)
 all_sprites.add(player2)
+all_sprites.add(ball)
 
 # Main game loop
 while not done:
@@ -40,6 +42,18 @@ while not done:
 
     # update all_sprites
     all_sprites.update()
+
+    # check if ball hit the paddle
+    collision1 = pygame.sprite.collide_rect(player1, ball)
+    if collision1:
+        ball.speedx = 3
+
+    collision2 = pygame.sprite.collide_rect(ball, player2)
+    if collision2:
+        ball.speedx = -3
+
+
+
 
     # If you want a background image, replace this clear with blit'ing the
     # background image.
