@@ -46,11 +46,15 @@ while not done:
     # check if ball hit the paddle
     collision1 = pygame.sprite.collide_rect(player1, ball)
     if collision1:
-        ball.speedx = 3
+        # reverse x direction
+        ball.speedx -= ball.speedx * 2
+        # increase overall speed
+        ball.speed_offset += 0.2
 
     collision2 = pygame.sprite.collide_rect(ball, player2)
     if collision2:
-        ball.speedx = -3
+        ball.speedx -= ball.speedx * 2
+        ball.speed_offset += 0.2
 
 
 

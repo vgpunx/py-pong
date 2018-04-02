@@ -14,15 +14,30 @@ class Ball(pygame.sprite.Sprite):
         self.speedx = -3
         self.speedy = -3
 
+        # variable to increase the overall speed of the ball by adding the offset to speedx and speedy
+        self.speed_offset = 0
+
     def update(self):
 
-        self.rect.y += self.speedy
-        self.rect.x += self.speedx
+        if self.speedy < 0:
+            self.rect.y += (self.speedy - self.speed_offset)
+        if self.speedy > 0:
+            self.rect.y += (self.speedy + self.speed_offset)
 
-        # collision detection
+        if self.speedx < 0:
+            self.rect.x += (self.speedx - self.speed_offset)
+        if self.speedx > 0:
+            self.rect.x += (self.speedx + self.speed_offset)
+
+        # self.rect.y += (self.speedy + self.speed_offset)
+        # self.rect.x += (self.speedx + self.speed_offset)
+
+        # border collision detection
         if self.rect.top < 0:
             self.rect.top = 0
-            self.speedy = 3
+            # reverse y direction
+            self.speedy -= self.speedy * 2
         if self.rect.bottom > HEIGHT:
             self.rect.bottom = HEIGHT-1
-            self.speedy = -3
+            # reverse y direction
+            self.speedy -= self.speedy * 2
