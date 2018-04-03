@@ -1,4 +1,5 @@
 from constants import *
+vec = pygame.math.Vector2
 
 
 class Ball(pygame.sprite.Sprite):
@@ -10,34 +11,32 @@ class Ball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH/2, HEIGHT/2)
 
-        # initial speed
-        self.speedx = -3
-        self.speedy = -3
-
-        # variable to increase the overall speed of the ball by adding the offset to speedx and speedy
-        self.speed_offset = 0
+        # Position (start in the middle of the screen)
+        self.pos = vec(WIDTH / 2, HEIGHT / 2)
+        # Velocity
+        self.vel = vec(0, 0)
+        # Acceleration
+        self.acc = vec(0, 0)
 
     def update(self):
+        self.acc = vec(0, 0)
 
-        if self.speedy < 0:
-            self.rect.y += (self.speedy - self.speed_offset)
-        if self.speedy > 0:
-            self.rect.y += (self.speedy + self.speed_offset)
+        started = False
+        keystate = pygame.key.get_pressed()
+        if keystate[pygame.K_SPACE] and not started:
+            self.acc.x = -0.5
+            self.acc.y = 0.5
+            started = True
 
-        if self.speedx < 0:
-            self.rect.x += (self.speedx - self.speed_offset)
-        if self.speedx > 0:
-            self.rect.x += (self.speedx + self.speed_offset)
+        # check for collision with a wall
+        if self.pos.y < 0:
+            self.pos.y = 0 + 1
+            self.vel.y -= (self.vel.y * 2)
+        if self.pos.y > HEIGHT:
+            self.pos.y = HEIGHT - 1
+            self.vel.y -= (self.vel.y * 2)
 
-        # self.rect.y += (self.speedy + self.speed_offset)
-        # self.rect.x += (self.speedx + self.speed_offset)
+        self.vel += self.acc
+        self.pos += self.vel + (0.5 * self.acc)
 
-        # border collision detection
-        if self.rect.top < 0:
-            self.rect.top = 0
-            # reverse y direction
-            self.speedy -= self.speedy * 2
-        if self.rect.bottom > HEIGHT:
-            self.rect.bottom = HEIGHT-1
-            # reverse y direction
-            self.speedy -= self.speedy * 2
+        self.rect.center = self.pos

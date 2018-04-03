@@ -47,14 +47,14 @@ while not done:
     collision1 = pygame.sprite.collide_rect(player1, ball)
     if collision1:
         # reverse x direction
-        ball.speedx -= ball.speedx * 2
+        ball.vel.x -= (ball.vel.x * 2)
         # increase overall speed
-        ball.speed_offset += 0.2
+        ball.vel += (1, 1)
 
     collision2 = pygame.sprite.collide_rect(ball, player2)
     if collision2:
-        ball.speedx -= ball.speedx * 2
-        ball.speed_offset += 0.2
+        ball.vel.x -= (ball.vel.x * 2)
+        ball.vel += (1, 1)
 
 
 
