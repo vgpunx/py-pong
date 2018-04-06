@@ -20,13 +20,15 @@ clock = pygame.time.Clock()
 
 # Group of all sprites
 all_sprites = pygame.sprite.Group()
+players = pygame.sprite.Group()
 
 player1 = Player1()
 player2 = Player2()
 ball = Ball()
 
-all_sprites.add(player1)
-all_sprites.add(player2)
+players.add(player1)
+players.add(player2)
+all_sprites.add(players)
 all_sprites.add(ball)
 
 # Main game loop
@@ -44,20 +46,13 @@ while not done:
     all_sprites.update()
 
     # check if ball hit the paddle
-    collision1 = pygame.sprite.collide_rect(player1, ball)
-    if collision1:
+    p1_collision = pygame.sprite.collide_rect(player1, ball)
+    p2_collision = pygame.sprite.collide_rect(player2, ball)
+    if p1_collision or p2_collision:
         # reverse x direction
         ball.vel.x -= (ball.vel.x * 2)
         # increase overall speed
         ball.vel += (1, 1)
-
-    collision2 = pygame.sprite.collide_rect(ball, player2)
-    if collision2:
-        ball.vel.x -= (ball.vel.x * 2)
-        ball.vel += (1, 1)
-
-
-
 
     # If you want a background image, replace this clear with blit'ing the
     # background image.

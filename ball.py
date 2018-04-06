@@ -15,18 +15,15 @@ class Ball(pygame.sprite.Sprite):
         self.pos = vec(WIDTH / 2, HEIGHT / 2)
         # Velocity
         self.vel = vec(0, 0)
-        # Acceleration
-        self.acc = vec(0, 0)
+
 
     def update(self):
         self.acc = vec(0, 0)
 
-        started = False
         keystate = pygame.key.get_pressed()
-        if keystate[pygame.K_SPACE] and not started:
-            self.acc.x = -0.5
-            self.acc.y = 0.5
-            started = True
+        if keystate[pygame.K_SPACE]:
+            self.vel.x = -2
+            self.vel.y = 2
 
         # check for collision with a wall
         if self.pos.y < 0:
@@ -36,7 +33,6 @@ class Ball(pygame.sprite.Sprite):
             self.pos.y = HEIGHT - 1
             self.vel.y -= (self.vel.y * 2)
 
-        self.vel += self.acc
-        self.pos += self.vel + (0.5 * self.acc)
+        self.pos += self.vel
 
         self.rect.center = self.pos
