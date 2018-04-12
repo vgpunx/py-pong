@@ -8,7 +8,7 @@ class Ball(pygame.sprite.Sprite):
     def __init__(self, bounds):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((10, 10))
-        self.image.fill(pygame.Color("white"))
+        self.image.fill(pygame.Color('WHITE'))
         self.rect = self.image.get_rect()
         self.rect.center = (PLAYFIELD_SIZE[0]/2, PLAYFIELD_SIZE[1]/2)
 

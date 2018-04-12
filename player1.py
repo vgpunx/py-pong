@@ -8,7 +8,7 @@ class Player1(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((PADDLE_WIDTH, PADDLE_HEIGHT))  # What the sprite looks like
-        self.image.fill(pygame.Color("green"))  # fill the Surface with the color Green
+        self.image.fill(pygame.Color('GREEN'))  # fill the Surface with the color Green
         self.rect = self.image.get_rect()   # The rectangle that encloses the sprite
         self.rect.center = (20, PLAYFIELD_SIZE[1]/2)
         self.speedy = 0
