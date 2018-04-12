@@ -1,5 +1,3 @@
-import pygame
-
 # Defining colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -8,7 +6,7 @@ RED = (255, 0, 0)
 
 # Constants
 DISPLAY_SIZE = (1024, 576)
-WIDTH = 1024
-HEIGHT = 576
+PLAYFIELD_SIZE = (DISPLAY_SIZE[0] * 0.98, DISPLAY_SIZE[1] * 0.85) # DISPLAY_SIZE = (1003.52, 489.6)
 PADDLE_HEIGHT = 70
 PADDLE_WIDTH = 10
+

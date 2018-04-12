@@ -1,3 +1,4 @@
+import pygame
 from constants import *
 
 
@@ -9,7 +10,7 @@ class Player2(pygame.sprite.Sprite):
         self.image = pygame.Surface((PADDLE_WIDTH, PADDLE_HEIGHT))  # What the sprite looks like
         self.image.fill(pygame.Color("green"))  # fill the Surface with the color Green
         self.rect = self.image.get_rect()   # The rectangle that encloses the sprite
-        self.rect.center = (WIDTH-20, HEIGHT/2)
+        self.rect.center = (PLAYFIELD_SIZE[0]-20, PLAYFIELD_SIZE[1]/2)
         self.speedy = 0
 
     def update(self):
@@ -24,5 +25,5 @@ class Player2(pygame.sprite.Sprite):
 
         if self.rect.top < 0:
             self.rect.top = 0
-        if self.rect.bottom > HEIGHT:
-            self.rect.bottom = HEIGHT
+        if self.rect.bottom > PLAYFIELD_SIZE[1]:
+            self.rect.bottom = PLAYFIELD_SIZE[1]

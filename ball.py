@@ -1,3 +1,4 @@
+import pygame
 from constants import *
 vec = pygame.math.Vector2
 
@@ -9,13 +10,12 @@ class Ball(pygame.sprite.Sprite):
         self.image = pygame.Surface((10, 10))
         self.image.fill(pygame.Color("white"))
         self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH/2, HEIGHT/2)
+        self.rect.center = (PLAYFIELD_SIZE[0]/2, PLAYFIELD_SIZE[1]/2)
 
         # Position (start in the middle of the screen)
-        self.pos = vec(WIDTH / 2, HEIGHT / 2)
+        self.pos = vec(PLAYFIELD_SIZE[0]/2, PLAYFIELD_SIZE[1]/2)
         # Velocity
         self.vel = vec(0, 0)
-        self.acc = vec(0, 0)
 
         self.bounds = bounds
 
@@ -37,7 +37,6 @@ class Ball(pygame.sprite.Sprite):
     #      self.move(self.vel)
 
     def update(self):
-        self.acc = vec(0, 0)
 
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_SPACE]:
@@ -48,8 +47,8 @@ class Ball(pygame.sprite.Sprite):
         if self.pos.y < 0:
            self.pos.y = 0 + 1
            self.vel.y -= (self.vel.y * 2)
-        if self.pos.y > HEIGHT:
-           self.pos.y = HEIGHT - 1
+        if self.pos.y > PLAYFIELD_SIZE[1]:
+           self.pos.y = PLAYFIELD_SIZE[1] - 1
            self.vel.y -= (self.vel.y * 2)
 
         self.pos += self.vel
