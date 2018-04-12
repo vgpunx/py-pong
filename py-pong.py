@@ -6,8 +6,7 @@ from ball import *
 pygame.init()
 
 # Set the width and height of the screen [width, height)
-size = (WIDTH, HEIGHT)
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode(DISPLAY_SIZE)
 
 # Title bar text
 pygame.display.set_caption("PyPong")
@@ -24,7 +23,9 @@ players = pygame.sprite.Group()
 
 player1 = Player1()
 player2 = Player2()
-ball = Ball()
+ball = Ball(
+    bounds=screen.get_rect()
+)
 
 players.add(player1)
 players.add(player2)
