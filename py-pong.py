@@ -6,7 +6,12 @@ from ball import *
 pygame.init()
 
 # Set the width and height of the screen [width, height)
+<<<<<<< HEAD
 screen = pygame.display.set_mode(DISPLAY_SIZE)
+=======
+size = (1280, 800)
+screen = pygame.display.set_mode(size)
+>>>>>>> playfield
 
 # Title bar text
 pygame.display.set_caption("PyPong")
