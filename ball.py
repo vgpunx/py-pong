@@ -41,10 +41,12 @@ class Ball(pygame.sprite.Sprite):
 
     def update(self):
 
-        keystate = pygame.key.get_pressed()
-        if keystate[pygame.K_SPACE]:
-            self.vel.x = -2
-            self.vel.y = 2
+        
+        # This is the old update() code
+        # keystate = pygame.key.get_pressed()
+        # if keystate[pygame.K_SPACE]:
+        #     self.vel.x = -2
+        #     self.vel.y = 2
 
         # TODO: Implement ball.bounce() using Vector2
         # if self.pos.y < 0:
