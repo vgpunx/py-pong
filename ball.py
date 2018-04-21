@@ -14,7 +14,7 @@ class Ball(pygame.sprite.Sprite):
         self.bounds = bounds
 
         # Position (start in the middle of the screen)
-        self.pos = vec(PLAYFIELD_SIZE[0]/2, PLAYFIELD_SIZE[1]/2)
+        self.pos = self.rect.center
         # Angle (degrees)
         self.angle = 0.0
         # Speed - in pixels
@@ -37,16 +37,14 @@ class Ball(pygame.sprite.Sprite):
 
         if bounce:
             self.vel = self.vel.reflect(norm)
-            self.move(self.vel)
+            # self.move(self.vel)
 
     def update(self):
-
-
-        # This is the old update() code
-        # keystate = pygame.key.get_pressed()
-        # if keystate[pygame.K_SPACE]:
-        #     self.vel.x = -2
-        #     self.vel.y = 2
+        # Check for spacebar
+        # TODO: Add a flag to check for currently in play before releasing the ball.
+        keystate = pygame.key.get_pressed()
+        if keystate[pygame.K_SPACE]:
+            self.vel = (-2, 2)
 
         # TODO: Implement ball.bounce() using Vector2
         # if self.pos.y < 0:
@@ -56,6 +54,7 @@ class Ball(pygame.sprite.Sprite):
         #    self.pos.y = PLAYFIELD_SIZE[1] - 1
         #    self.vel.y -= (self.vel.y * 2)
 
+        # TODO: Implement bounce() here to check for collision with walls
         self.pos += self.vel
 
         self.rect.center = self.pos
