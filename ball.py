@@ -41,7 +41,7 @@ class Ball(pygame.sprite.Sprite):
 
     def update(self):
 
-        
+
         # This is the old update() code
         # keystate = pygame.key.get_pressed()
         # if keystate[pygame.K_SPACE]:
