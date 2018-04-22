@@ -10,11 +10,11 @@ class Ball(pygame.sprite.Sprite):
         self.image = pygame.Surface((10, 10))
         self.image.fill(pygame.Color('WHITE'))
         self.rect = self.image.get_rect()
-        self.rect.center = (PLAYFIELD_SIZE[0]/2, PLAYFIELD_SIZE[1]/2)
+        self.rect.center = PLAYFIELD_SIZE[0]/2, PLAYFIELD_SIZE[1]/2
         self.bounds = bounds
 
         # Position (start in the middle of the screen)
-        self.pos = self.rect.center
+        self.pos = vec(self.rect.center[0], self.rect.center[1])
         # Angle (degrees)
         self.angle = 0.0
         # Speed - in pixels
@@ -37,24 +37,21 @@ class Ball(pygame.sprite.Sprite):
 
         if bounce:
             self.vel = self.vel.reflect(norm)
-            # self.move(self.vel)
 
     def update(self):
-        # Check for spacebar
+        # Check for space bar
         # TODO: Add a flag to check for currently in play before releasing the ball.
+        # Probably want to turn this part into its own method.
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_SPACE]:
-            self.vel = (-2, 2)
+            self.vel = vec(-2, 2)
 
-        # TODO: Implement ball.bounce() using Vector2
-        # if self.pos.y < 0:
-        #    self.pos.y = 0 + 1
-        #    self.vel.y -= (self.vel.y * 2)
-        # if self.pos.y > PLAYFIELD_SIZE[1]:
-        #    self.pos.y = PLAYFIELD_SIZE[1] - 1
-        #    self.vel.y -= (self.vel.y * 2)
+        # TODO: Create and implement a read-ahead algorithm that constantly checks for the position on the next cycle
+        # (cont'd) and decides if bounce, out-of-bounds, or if collision with paddle occurs based on that logic.
 
-        # TODO: Implement bounce() here to check for collision with walls
+        # check for bounce/collision
+        self.bounce(self.pos, self.vel)
+        # update the position of the ball based on the velocity
         self.pos += self.vel
-
+        # update the actual position of the rect based on the stored position
         self.rect.center = self.pos
