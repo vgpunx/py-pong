@@ -22,7 +22,7 @@ class Ball(pygame.sprite.Sprite):
         # Velocity - I believe this is a placeholder for update() method
         self.vel = vec(1, 0).rotate(self.angle) * self.speed
 
-    def bounce(self, pos, vel):
+    def bounce(self, vel):
         bounce = False
 
         # top and bottom boundary bouncing
@@ -36,9 +36,22 @@ class Ball(pygame.sprite.Sprite):
             bounce = True
 
         if bounce:
-            self.vel = self.vel.reflect(norm)
+            vel = vel.reflect(norm)
+            return vel
+        else:
+            return vel
+
+    def move(self):
+        # predictive check
+        return self.pos + self.vel
 
     def update(self):
+        # predictive check
+        # self.move() returns a new vector based on self.pos + self.vel
+        # this method assumes that bounce() is handling the boundary
+        # or collision check either internally or by calling another
+        # function
+
         # Check for space bar
         # TODO: Add a flag to check for currently in play before releasing the ball.
         # Probably want to turn this part into its own method.
@@ -50,8 +63,7 @@ class Ball(pygame.sprite.Sprite):
         # (cont'd) and decides if bounce, out-of-bounds, or if collision with paddle occurs based on that logic.
 
         # check for bounce/collision
-        self.bounce(self.pos, self.vel)
         # update the position of the ball based on the velocity
-        self.pos += self.vel
+        self.pos += self.bounce(self.move())     # Change to self.bounce(self.move()) after creation
         # update the actual position of the rect based on the stored position
         self.rect.center = self.pos
