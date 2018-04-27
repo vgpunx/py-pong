@@ -22,7 +22,7 @@ class Ball(pygame.sprite.Sprite):
         # Velocity - I believe this is a placeholder for update() method
         self.vel = vec(1, 0).rotate(self.angle) * self.speed
 
-    def bounce(self, vel):
+    def bounce(self, pos):
         bounce = False
 
         # top and bottom boundary bouncing
@@ -36,14 +36,14 @@ class Ball(pygame.sprite.Sprite):
             bounce = True
 
         if bounce:
-            vel = vel.reflect(norm)
-            return vel
-        else:
-            return vel
+            pos += self.vel.reflect(norm)
+
+        return pos
 
     def move(self):
         # predictive check
-        return self.pos + self.vel
+        new_pos = self.pos + self.vel
+        return new_pos
 
     def update(self):
         # predictive check
@@ -64,6 +64,6 @@ class Ball(pygame.sprite.Sprite):
 
         # check for bounce/collision
         # update the position of the ball based on the velocity
-        self.pos += self.bounce(self.move())     # Change to self.bounce(self.move()) after creation
+        self.pos = self.bounce(self.move())     # Change to self.bounce(self.move()) after creation
         # update the actual position of the rect based on the stored position
         self.rect.center = self.pos
