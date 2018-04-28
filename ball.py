@@ -25,13 +25,17 @@ class Ball(pygame.sprite.Sprite):
     def bounce(self, pos):
         bounce = False
 
+        # create a temporary rect for boundary testing
+        test_rect = self.rect
+        test_rect.center = pos
+
         # top and bottom boundary bouncing
-        if self.rect.top <= self.bounds.top or self.rect.bottom >= self.bounds.bottom:
+        if test_rect.top <= self.bounds.top or test_rect.bottom >= self.bounds.bottom:
             norm = vec(0, 1)
             bounce = True
 
         # left and right boundary bouncing for test purposes
-        elif self.rect.left <= self.bounds.left or self.rect.right >= self.bounds.right:
+        elif test_rect.left <= self.bounds.left or test_rect.right >= self.bounds.right:
             norm = vec(1, 0)
             bounce = True
 
@@ -57,7 +61,8 @@ class Ball(pygame.sprite.Sprite):
         # Probably want to turn this part into its own method.
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_SPACE]:
-            self.vel = vec(-2, 2)
+            self.angle = 45
+            self.speed = 3
 
         # TODO: Create and implement a read-ahead algorithm that constantly checks for the position on the next cycle
         # (cont'd) and decides if bounce, out-of-bounds, or if collision with paddle occurs based on that logic.
