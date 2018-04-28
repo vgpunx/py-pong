@@ -44,6 +44,14 @@ class Ball(pygame.sprite.Sprite):
 
         return pos
 
+    def set_speed(self, speed):
+        self.speed = speed
+        self.vel = vec(1, 0).rotate(self.angle) * speed
+
+    def set_angle(self, angle):
+        self.angle = angle
+        self.vel = vec(1, 0).rotate(angle) * self.speed
+
     def move(self):
         # predictive check
         new_pos = self.pos + self.vel
@@ -61,8 +69,8 @@ class Ball(pygame.sprite.Sprite):
         # Probably want to turn this part into its own method.
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_SPACE]:
-            self.angle = 45
-            self.speed = 3
+            self.set_speed(3)
+            self.set_angle(45)
 
         # TODO: Create and implement a read-ahead algorithm that constantly checks for the position on the next cycle
         # (cont'd) and decides if bounce, out-of-bounds, or if collision with paddle occurs based on that logic.
