@@ -30,7 +30,12 @@ class Ball(pygame.sprite.Sprite):
         test_rect.center = pos
 
         # top and bottom boundary bouncing
+        # TODO: Something here is causing the ball to get stuck at the bottom of the screen.
         if test_rect.top <= self.bounds.top or test_rect.bottom >= self.bounds.bottom:
+            if test_rect.top < self.bounds.top:
+                test_rect.top = self.bounds.top
+            if test_rect.bottom > self.bounds.bottom:
+                test_rect.bottom = self.bounds.bottom
             norm = vec(0, 1)
             bounce = True
 
@@ -58,22 +63,13 @@ class Ball(pygame.sprite.Sprite):
         return new_pos
 
     def update(self):
-        # predictive check
-        # self.move() returns a new vector based on self.pos + self.vel
-        # this method assumes that bounce() is handling the boundary
-        # or collision check either internally or by calling another
-        # function
-
         # Check for space bar
         # TODO: Add a flag to check for currently in play before releasing the ball.
         # Probably want to turn this part into its own method.
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_SPACE]:
             self.set_speed(3)
-            self.set_angle(45)
-
-        # TODO: Create and implement a read-ahead algorithm that constantly checks for the position on the next cycle
-        # (cont'd) and decides if bounce, out-of-bounds, or if collision with paddle occurs based on that logic.
+            self.set_angle(135)
 
         # check for bounce/collision
         # update the position of the ball based on the velocity
