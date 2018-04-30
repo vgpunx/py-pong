@@ -32,10 +32,6 @@ class Ball(pygame.sprite.Sprite):
         # top and bottom boundary bouncing
         # TODO: Something here is causing the ball to get stuck at the bottom of the screen.
         if test_rect.top <= self.bounds.top or test_rect.bottom >= self.bounds.bottom:
-            if test_rect.top < self.bounds.top:
-                test_rect.top = self.bounds.top
-            if test_rect.bottom > self.bounds.bottom:
-                test_rect.bottom = self.bounds.bottom
             norm = vec(0, 1)
             bounce = True
 
@@ -45,7 +41,12 @@ class Ball(pygame.sprite.Sprite):
             bounce = True
 
         if bounce:
-            pos += self.vel.reflect(norm)
+            # new direction
+            self.vel = self.vel.reflect(norm)
+            # new angle property
+            self.angle = self.vel.angle_to(vec(1, 0))  # Vector2(1, 0) has an angle of 0.0 deg
+            # move in the new direction once this frame
+            pos += self.vel
 
         return pos
 
