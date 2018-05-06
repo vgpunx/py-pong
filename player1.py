@@ -29,5 +29,5 @@ class Player1(pygame.sprite.Sprite):
 
         if self.rect.top < 0:
             self.rect.top = 0
-        if self.rect.bottom > PLAYFIELD_SIZE[1]:
+        if self.rect.bottom > PLAYFIELD_SIZE[1]: # TODO: Pass in playfield to use bounds instead
             self.rect.bottom = PLAYFIELD_SIZE[1]

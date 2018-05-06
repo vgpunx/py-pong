@@ -10,7 +10,7 @@ class Ball(pygame.sprite.Sprite):
         self.image = pygame.Surface((10, 10))
         self.image.fill(pygame.Color('WHITE'))
         self.rect = self.image.get_rect()
-        self.rect.center = PLAYFIELD_SIZE[0]/2, PLAYFIELD_SIZE[1]/2
+        self.rect.center = bounds[2] / 2, bounds[3] / 2
         self.bounds = bounds
 
         # Position (start in the middle of the screen)
@@ -30,7 +30,6 @@ class Ball(pygame.sprite.Sprite):
         test_rect.center = pos
 
         # top and bottom boundary bouncing
-        # TODO: Something here is causing the ball to get stuck at the bottom of the screen.
         if test_rect.top <= self.bounds.top or test_rect.bottom >= self.bounds.bottom:
             norm = vec(0, 1)
             bounce = True
