@@ -11,20 +11,17 @@ class Paddle(pygame.sprite.Sprite):
         self.image.fill(pygame.Color('GREEN'))  # fill the Surface with the color Green
         self.rect = self.image.get_rect()   # The rectangle that encloses the sprite
         self.rect.center = (x, y)
-        self.speedy = 0
+        self.speed = 7
 
     def move_up(self):
-        self.speedy = -5
+        self.rect.move_ip(0, -self.speed)
 
     def move_down(self):
-        self.speedy = 5
+        self.rect.move_ip(0, self.speed)
 
     def update(self):
-        self.rect.y += self.speedy
 
         if self.rect.top < 0:
             self.rect.top = 0
         if self.rect.bottom > PLAYFIELD_SIZE[1]:
             self.rect.bottom = PLAYFIELD_SIZE[1]
-
-        self.speedy = 0

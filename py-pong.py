@@ -28,17 +28,11 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
 
-        # Check for player inputs
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_w:
-                playfield.paddle1.move_up()
-            if event.key == pygame.K_s:
-                playfield.paddle1.move_down()
+    pygame.event.pump()
 
     # Clear the screen
 
     # update all_sprites
-
 
     # If you want a background image, replace this clear with blit'ing the
     # background image.
@@ -49,6 +43,20 @@ while not done:
 
     # draw the playfield to the screen
     playfield.draw(screen)
+
+    # Check for player 1 inputs
+    key_state = pygame.key.get_pressed()
+    if key_state[pygame.K_w]:
+        playfield.paddle1.move_up()
+    if key_state[pygame.K_s]:
+        playfield.paddle1.move_down()
+
+    # Check for player 2 inputs
+    if key_state[pygame.K_UP]:
+        playfield.paddle2.move_up()
+    if key_state[pygame.K_DOWN]:
+        playfield.paddle2.move_down()
+
 
     # draw all_sprites group to the screen
     # all_sprites.draw(screen)
