@@ -22,6 +22,7 @@ class Ball(pygame.sprite.Sprite):
         # Velocity - I believe this is a placeholder for update() method
         self.vel = vec(1, 0).rotate(self.angle) * self.speed
 
+    # TODO: Playfield should call this method to reflect the ball when it collides with a paddle.
     def bounce(self, pos):
         bounce = False
 
@@ -73,6 +74,6 @@ class Ball(pygame.sprite.Sprite):
 
         # check for bounce/collision
         # update the position of the ball based on the velocity
-        self.pos = self.bounce(self.move())     # Change to self.bounce(self.move()) after creation
+        self.pos = self.bounce(self.move())
         # update the actual position of the rect based on the stored position
         self.rect.center = self.pos

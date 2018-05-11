@@ -19,7 +19,7 @@ clock = pygame.time.Clock()
 
 # Instantiate objects
 ball = Ball(pygame.Surface(PLAYFIELD_SIZE).get_rect())
-playfield = Playfield(PLAYFIELD_SIZE, ball, Player1(), Player2())
+playfield = Playfield(PLAYFIELD_SIZE, ball)
 
 # Main game loop
 while not done:

@@ -5,12 +5,12 @@ from constants import *
 # This is the paddle class.
 class Player1(pygame.sprite.Sprite):
     # paddle sprite
-    def __init__(self):
+    def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((PADDLE_WIDTH, PADDLE_HEIGHT))  # What the sprite looks like
         self.image.fill(pygame.Color('GREEN'))  # fill the Surface with the color Green
         self.rect = self.image.get_rect()   # The rectangle that encloses the sprite
-        self.rect.center = (20, PLAYFIELD_SIZE[1]/2)
+        self.rect.center = (x, y)
         self.speedy = 0
 
     def update(self):
