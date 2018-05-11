@@ -28,7 +28,12 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
 
-    # Game logic
+        # Check for player inputs
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w:
+                playfield.paddle1.move_up()
+            if event.key == pygame.K_s:
+                playfield.paddle1.move_down()
 
     # Clear the screen
 

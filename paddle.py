@@ -13,17 +13,18 @@ class Paddle(pygame.sprite.Sprite):
         self.rect.center = (x, y)
         self.speedy = 0
 
-    def update(self):
-        self.speedy = 0
-        keystate = pygame.key.get_pressed()
-        if keystate[pygame.K_UP]:
-            self.speedy = -5
-        if keystate[pygame.K_DOWN]:
-            self.speedy = 5
+    def move_up(self):
+        self.speedy = -5
 
+    def move_down(self):
+        self.speedy = 5
+
+    def update(self):
         self.rect.y += self.speedy
 
         if self.rect.top < 0:
             self.rect.top = 0
         if self.rect.bottom > PLAYFIELD_SIZE[1]:
             self.rect.bottom = PLAYFIELD_SIZE[1]
+
+        self.speedy = 0
