@@ -18,8 +18,7 @@ done = False
 clock = pygame.time.Clock()
 
 # Instantiate objects
-ball = Ball(pygame.Surface(PLAYFIELD_SIZE).get_rect())
-playfield = Playfield(PLAYFIELD_SIZE, ball)
+playfield = Playfield(PLAYFIELD_SIZE)
 
 # Main game loop
 while not done:
@@ -30,20 +29,14 @@ while not done:
 
     pygame.event.pump()
 
-    # Clear the screen
-
-    # update all_sprites
-
-    # If you want a background image, replace this clear with blit'ing the
-    # background image.
-
+    # I see a white screen and I want it painted black
     screen.fill(BLACK)
 
     # Drawing code
-
     # draw the playfield to the screen
     playfield.draw(screen)
 
+    # Input checks
     # Check for player 1 inputs
     key_state = pygame.key.get_pressed()
     if key_state[pygame.K_w]:
@@ -57,9 +50,9 @@ while not done:
     if key_state[pygame.K_DOWN]:
         playfield.paddle2.move_down()
 
-
-    # draw all_sprites group to the screen
-    # all_sprites.draw(screen)
+    # Check for space bar to start the round if needed
+    if key_state[pygame.K_SPACE] and not playfield.ball.in_play:
+        playfield.ball.start_round()
 
     # Update the screen with the draw
     pygame.display.flip()

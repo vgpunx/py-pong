@@ -13,6 +13,9 @@ class Ball(pygame.sprite.Sprite):
         self.rect.center = bounds[2] / 2, bounds[3] / 2
         self.bounds = bounds
 
+        # Flag to let the game know when the ball is in play so a round can be started with SPACE
+        self.in_play = False
+
         # Position (start in the middle of the screen)
         self.pos = vec(self.rect.center[0], self.rect.center[1])
         # Angle (degrees)
@@ -63,17 +66,14 @@ class Ball(pygame.sprite.Sprite):
         new_pos = self.pos + self.vel
         return new_pos
 
-    def update(self):
-        # Check for space bar
-        # TODO: Add a flag to check for currently in play before releasing the ball.
-        # Probably want to turn this part into its own method.
-        keystate = pygame.key.get_pressed()
-        if keystate[pygame.K_SPACE]:
-            self.set_speed(3)
-            self.set_angle(135)
+    def start_round(self):
+        # Used to start the round when space is pressed
+        self.set_speed(3)
+        self.set_angle(135)
+        self.in_play = True
 
-        # check for bounce/collision
-        # update the position of the ball based on the velocity
+    def update(self):
+        # Check for collision on the upcoming move and branch based on collision
         self.pos = self.bounce(self.move())
-        # update the actual position of the rect based on the stored position
+        # Update the actual position of the ball based with the stored position data
         self.rect.center = self.pos
