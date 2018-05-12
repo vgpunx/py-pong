@@ -32,7 +32,6 @@ while not done:
     # I see a white screen and I want it painted black
     screen.fill(BLACK)
 
-    # Drawing code
     # draw the playfield to the screen
     playfield.draw(screen)
 

@@ -1,5 +1,4 @@
 import pygame
-from constants import *
 from pygame.math import Vector2 as vec
 
 
