@@ -52,6 +52,12 @@ class Ball(pygame.sprite.Sprite):
 
         return pos
 
+    def get_location(self):
+        return self.pos
+
+    def get_rect(self):
+        return self.rect
+
     def set_speed(self, speed):
         self.speed = speed
         self.vel = vec(1, 0).rotate(self.angle) * speed
