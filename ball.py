@@ -24,33 +24,36 @@ class Ball(pygame.sprite.Sprite):
         # Velocity - I believe this is a placeholder for update() method
         self.vel = vec(1, 0).rotate(self.angle) * self.speed
 
-    # TODO: Playfield should call this method to reflect the ball when it collides with a paddle.
-    def bounce(self, pos):
-        bounce = False
+    # def bounce
+    #     bounce = False
+    #
+    #     # create a temporary rect for boundary testing
+    #     test_rect = self.rect
+    #     test_rect.center = pos
+    #
+    #     # top and bottom boundary bouncing
+    #     if test_rect.top <= self.bounds.top or test_rect.bottom >= self.bounds.bottom:
+    #         norm = vec(0, 1)
+    #         bounce = True
+    #
+    #     # left and right boundary bouncing for test purposes
+    #     elif test_rect.left <= self.bounds.left or test_rect.right >= self.bounds.right:
+    #         norm = vec(1, 0)
+    #         bounce = True
+    #
+    #     if bounce:
+    #         # new direction
+    #         self.vel = self.vel.reflect(norm)
+    #         # new angle property
+    #         self.angle = self.vel.angle_to(vec(1, 0))  # Vector2(1, 0) has an angle of 0.0 deg
+    #         # move in the new direction once this frame
+    #         pos += self.vel
+    #
+    #     return pos
 
-        # create a temporary rect for boundary testing
-        test_rect = self.rect
-        test_rect.center = pos
-
-        # top and bottom boundary bouncing
-        if test_rect.top <= self.bounds.top or test_rect.bottom >= self.bounds.bottom:
-            norm = vec(0, 1)
-            bounce = True
-
-        # left and right boundary bouncing for test purposes
-        elif test_rect.left <= self.bounds.left or test_rect.right >= self.bounds.right:
-            norm = vec(1, 0)
-            bounce = True
-
-        if bounce:
-            # new direction
-            self.vel = self.vel.reflect(norm)
-            # new angle property
-            self.angle = self.vel.angle_to(vec(1, 0))  # Vector2(1, 0) has an angle of 0.0 deg
-            # move in the new direction once this frame
-            pos += self.vel
-
-        return pos
+    # Bounce the ball.
+    def bounce(self, collision_vector):
+        self.vel = self.vel.reflect(collision_vector.rotate(90).normalize())
 
     def get_location(self):
         return self.pos
@@ -79,6 +82,6 @@ class Ball(pygame.sprite.Sprite):
 
     def update(self):
         # Check for collision on the upcoming move and branch based on collision
-        self.pos = self.bounce(self.move())
+        self.pos = self.move()
         # Update the actual position of the ball based with the stored position data
         self.rect.center = self.pos
