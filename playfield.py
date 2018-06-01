@@ -16,16 +16,41 @@ class Playfield:
         # Position of the playfield based on DISPLAY_SIZE.
         self.position = ((DISPLAY_SIZE[0] - PLAYFIELD_SIZE[0]) / 2, DISPLAY_SIZE[1] - ((DISPLAY_SIZE[0] - PLAYFIELD_SIZE[0]) / 2) - PLAYFIELD_SIZE[1])
 
-        self.all_sprites = pygame.sprite.Group(self.ball, self.paddle1, self.paddle2)
+        self.paddles = pygame.sprite.Group(self.paddle1, self.paddle2)
+        self.all_sprites = pygame.sprite.Group(self.ball, self.paddles)
 
     def process_collision(self):
         # TODO: This method will handle all sprite collision in the game, and use ball.bounce to process bouncing.
+        # Top and bottom boundary bouncing
         if self.ball.rect.top <= self.rect.top or self.ball.rect.bottom >= self.rect.bottom:
             self.ball.bounce(vec(1, 0))
             return
+
+        # This block implements left and right boundary bouncing for test purposes only and should be removed.
         elif self.ball.rect.right >= self.rect.right or self.ball.rect.left <= self.rect.left:
             self.ball.bounce(vec(0, 1))
             return
+
+        # Handle collision with paddle
+        collision_list = pygame.sprite.spritecollide(self.ball, self.paddles, False)
+
+        if collision_list:
+            # Get the location of the ball at the time of collision
+            ball_coll_vec = self.ball.get_location()
+            print("Ball collided at: ", ball_coll_vec[0], ", ", ball_coll_vec[1])
+
+            # Get the location of the paddle that was collided with
+            if self.paddle1 in collision_list:
+                paddle_coll_vec = self.paddle1.get_location()
+                print("Paddle1 collision at: ", paddle_coll_vec[0], ", ", paddle_coll_vec[1])
+            elif self.paddle2 in collision_list:
+                paddle_coll_vec = self.paddle2.get_location()
+                print("Paddle2 collision at: ", paddle_coll_vec[0], ", ", paddle_coll_vec[1])
+
+            self.ball.bounce(vec(0, 1))
+            # for spr in collision_list:
+            #     self.ball.bounce(vec(0, 1))
+            #     break
 
     def draw(self, surface):
         # TODO: Draw a green line around the play field to visually show the play field boundaries
