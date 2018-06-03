@@ -41,11 +41,23 @@ class Playfield:
 
             # Get the location of the paddle that was collided with
             if self.paddle1 in collision_list:
-                paddle_coll_vec = self.paddle1.get_location()
-                print("Paddle1 collision at: ", paddle_coll_vec[0], ", ", paddle_coll_vec[1])
+                paddle_coll_vec = self.paddle1.get_location()   # Get the location of the paddle (center)
+                print("Paddle1 collision at: ", paddle_coll_vec[0], ", ", paddle_coll_vec[1])   # debug code
+
             elif self.paddle2 in collision_list:
                 paddle_coll_vec = self.paddle2.get_location()
                 print("Paddle2 collision at: ", paddle_coll_vec[0], ", ", paddle_coll_vec[1])
+
+            # Divide the paddle into 3 pieces and determine where the ball hit on the paddle.
+            paddle_top = paddle_coll_vec[1] - (PADDLE_HEIGHT / 2)
+            paddle_mid_top = paddle_top - paddle_coll_vec[1]
+            paddle_bot = paddle_coll_vec[1] + (PADDLE_HEIGHT / 2)
+            paddle_mid_bot = paddle_bot + paddle_coll_vec[1]
+
+            print("top: ", paddle_top)
+            print("mid-top: ", paddle_mid_top)
+            print("mid_bot: ", paddle_mid_bot)
+            print("bot: ", paddle_bot)
 
             self.ball.bounce(vec(0, 1))
             # for spr in collision_list:
