@@ -48,18 +48,26 @@ class Playfield:
                 paddle_coll_vec = self.paddle2.get_location()
                 print("Paddle2 collision at: ", paddle_coll_vec[0], ", ", paddle_coll_vec[1])
 
-            # Divide the paddle into 3 pieces and determine where the ball hit on the paddle.
+            # Get the top and bottom coords of the paddle at time of collision
+            # And the difference between the paddle and ball coords
             paddle_top = paddle_coll_vec[1] - (PADDLE_HEIGHT / 2)
-            paddle_mid_top = paddle_top - paddle_coll_vec[1]
             paddle_bot = paddle_coll_vec[1] + (PADDLE_HEIGHT / 2)
-            paddle_mid_bot = paddle_bot + paddle_coll_vec[1]
+            # The difference causes a top collision to come in as a positive and bottom collision as a negative
+            # TODO: Worth noting that both collisions came in as -38.6 and 34.36 (test this later)
+            # Angle is 0 degrees is right, 90 is down, 180 is left and 270 is up
+            coll_diff = paddle_coll_vec[1] - ball_coll_vec[1]
 
             print("top: ", paddle_top)
-            print("mid-top: ", paddle_mid_top)
-            print("mid_bot: ", paddle_mid_bot)
             print("bot: ", paddle_bot)
+            print("diff: ", coll_diff)
 
-            self.ball.bounce(vec(0, 1))
+            
+
+            # old code
+            # bounce_offset = vec((coll_diff * 0.1), 0)
+            # paddle_coll_norm = bounce_offset - vec(0, 1)
+            # self.ball.bounce(paddle_coll_norm)
+
             # for spr in collision_list:
             #     self.ball.bounce(vec(0, 1))
             #     break
