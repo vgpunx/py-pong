@@ -33,6 +33,7 @@ while not done:
     screen.fill(BLACK)
 
     # draw the playfield to the screen
+    playfield.update()
     playfield.draw(screen)
 
     # Input checks

@@ -25,7 +25,9 @@ class Playfield:
         self.background.fill(pygame.Color('BLACK'))
 
         pygame.draw.rect(self.background, pygame.Color('WHITE'), self.rect, 5)
-        pygame.draw.line(self.background, pygame.Color('WHITE'), self.rect.midtop, self.rect.midbottom, 3)
+        pygame.draw.line(self.background, pygame.Color('WHITE'), self.rect.midtop, self.rect.midbottom, 1)
+
+        self.image.blit(self.background, self.rect.topleft)
 
     def process_collision(self):
         # TODO: This method will handle all sprite collision in the game, and use ball.bounce to process bouncing.
@@ -72,9 +74,8 @@ class Playfield:
             # self.ball.bounce(vec(0, 1))
 
     def draw(self, surface):
-        self.image.blit(self.background, self.rect.topleft)
+        self.all_sprites.clear(self.image, self.background)
 
-        self.update()
         self.all_sprites.draw(self.image)
 
         # blit from self.image to self.position
