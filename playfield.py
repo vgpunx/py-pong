@@ -19,6 +19,14 @@ class Playfield:
         self.paddles = pygame.sprite.Group(self.paddle1, self.paddle2)
         self.all_sprites = pygame.sprite.Group(self.ball, self.paddles)
 
+        self.background = pygame.Surface(size)
+
+        # I see a Playfield and I want it painted black
+        self.background.fill(pygame.Color('BLACK'))
+
+        pygame.draw.rect(self.background, pygame.Color('WHITE'), self.rect, 5)
+        pygame.draw.line(self.background, pygame.Color('WHITE'), self.rect.midtop, self.rect.midbottom, 3)
+
     def process_collision(self):
         # TODO: This method will handle all sprite collision in the game, and use ball.bounce to process bouncing.
         # Top and bottom boundary bouncing
@@ -37,44 +45,35 @@ class Playfield:
         if collision_list:
             # Get the location of the ball at the time of collision
             ball_coll_vec = self.ball.get_location()
-            print("Ball collided at: ", ball_coll_vec[0], ", ", ball_coll_vec[1])
+            # print("Ball collided at: ", ball_coll_vec[0], ", ", ball_coll_vec[1])
 
             # Get the location of the paddle that was collided with
             if self.paddle1 in collision_list:
+                paddle_bounce_angle = 360
                 paddle_coll_vec = self.paddle1.get_location()   # Get the location of the paddle (center)
-                print("Paddle1 collision at: ", paddle_coll_vec[0], ", ", paddle_coll_vec[1])   # debug code
+                # print("Paddle1 collision at: ", paddle_coll_vec[0], ", ", paddle_coll_vec[1])   # debug code
 
             elif self.paddle2 in collision_list:
+                paddle_bounce_angle = 180
                 paddle_coll_vec = self.paddle2.get_location()
-                print("Paddle2 collision at: ", paddle_coll_vec[0], ", ", paddle_coll_vec[1])
+                # print("Paddle2 collision at: ", paddle_coll_vec[0], ", ", paddle_coll_vec[1])
 
-            # Get the top and bottom coords of the paddle at time of collision
-            # And the difference between the paddle and ball coords
-            paddle_top = paddle_coll_vec[1] - (PADDLE_HEIGHT / 2)
-            paddle_bot = paddle_coll_vec[1] + (PADDLE_HEIGHT / 2)
-            # The difference causes a top collision to come in as a positive and bottom collision as a negative
-            # TODO: Worth noting that both collisions came in as -38.6 and 34.36 (test this later)
             # Angle is 0 degrees is right, 90 is down, 180 is left and 270 is up
             coll_diff = paddle_coll_vec[1] - ball_coll_vec[1]
 
-            print("top: ", paddle_top)
-            print("bot: ", paddle_bot)
-            print("diff: ", coll_diff)
+            angle_offset = coll_diff * (90 / PADDLE_HEIGHT)
+            if paddle_bounce_angle == 360:
+                paddle_bounce_angle -= angle_offset
+            if paddle_bounce_angle == 180:
+                paddle_bounce_angle += angle_offset
 
-            
+            self.ball.set_angle(paddle_bounce_angle)
 
-            # old code
-            # bounce_offset = vec((coll_diff * 0.1), 0)
-            # paddle_coll_norm = bounce_offset - vec(0, 1)
-            # self.ball.bounce(paddle_coll_norm)
-
-            # for spr in collision_list:
-            #     self.ball.bounce(vec(0, 1))
-            #     break
+            # self.ball.bounce(vec(0, 1))
 
     def draw(self, surface):
-        # TODO: Draw a green line around the play field to visually show the play field boundaries
-        self.image.fill(pygame.Color('BLACK'))
+        self.image.blit(self.background, self.rect.topleft)
+
         self.update()
         self.all_sprites.draw(self.image)
 

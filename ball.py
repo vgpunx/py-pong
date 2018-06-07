@@ -49,8 +49,8 @@ class Ball(pygame.sprite.Sprite):
 
     def start_round(self):
         # Used to start the round when space is pressed
-        self.set_speed(3)
-        self.set_angle(135)
+        self.set_speed(5)
+        self.set_angle(130)
         self.in_play = True
 
     def update(self):
