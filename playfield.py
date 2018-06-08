@@ -9,6 +9,8 @@ class Playfield:
         self.size = size
         self.image = pygame.Surface(size)
         self.rect = self.image.get_rect()
+
+        # Instantiate game objects
         self.ball = Ball(self.rect)
         self.paddle1 = Paddle(20, PLAYFIELD_SIZE[1]/2)
         self.paddle2 = Paddle(PLAYFIELD_SIZE[0]-20, PLAYFIELD_SIZE[1]/2)

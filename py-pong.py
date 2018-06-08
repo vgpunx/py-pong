@@ -1,6 +1,7 @@
 from constants import *
 import pygame
 from playfield import *
+from scoreboard import *
 
 
 pygame.init()
@@ -19,6 +20,7 @@ clock = pygame.time.Clock()
 
 # Instantiate objects
 playfield = Playfield(PLAYFIELD_SIZE)
+scoreboard = Scoreboard(SCOREBOARD_SIZE)
 
 # Main game loop
 while not done:
@@ -35,6 +37,8 @@ while not done:
     # draw the playfield to the screen
     playfield.update()
     playfield.draw(screen)
+
+    scoreboard.draw(screen)
 
     # Input checks
     # Check for player 1 inputs
