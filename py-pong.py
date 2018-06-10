@@ -20,7 +20,7 @@ clock = pygame.time.Clock()
 
 # Instantiate objects
 playfield = Playfield(PLAYFIELD_SIZE)
-scoreboard = Scoreboard(SCOREBOARD_SIZE)
+scoreboard = Scoreboard(PLAYFIELD_SIZE)
 
 # Main game loop
 while not done:
