@@ -1,7 +1,7 @@
 import pygame
 
 class ScoreboardNumeral(pygame.sprite.Sprite):
-    def __init__(self, height, fg_color, bg_color, *groups, value):
+    def __init__(self, height, fg_color, bg_color, *groups, value=0):
         """
         :param height: int
         :param fg_color: string
@@ -30,7 +30,7 @@ class ScoreboardNumeral(pygame.sprite.Sprite):
 
     def set_value(self, value):
         self.value = value
-        self. image.blit(self.background, (0, 0))
+        self.image.blit(self.background, (0, 0))
         pygame.draw.lines(self.image, self.fg_color, False, self._digit_shapes[self.value], self._digit_strokewidth)
 
     def get_value(self):
