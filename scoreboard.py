@@ -16,10 +16,15 @@ class Scoreboard:
         # instantiate numerals
         self.numerals = pygame.sprite.Group()
         self.p1_score_ones = ScoreboardNumeral(self.size[1], 'WHITE', 'BLACK', self.numerals)
+        self.p1_score_tens = ScoreboardNumeral(self.size[1], 'WHITE', 'BLACK', self.numerals)
         self.p2_score_ones = ScoreboardNumeral(self.size[1], 'WHITE', 'BLACK', self.numerals)
+        self.p2_score_tens = ScoreboardNumeral(self.size[1], 'WHITE', 'BLACK', self.numerals)
 
-        self.p1_score_ones.rect.topleft = self.rect.topleft
+        # Numeral positions on the scoreboard
+        self.p1_score_ones.rect.topleft = (self.rect.topleft[0] + self.p1_score_ones.get_width() + self.p1_score_ones.get_stroke_width()), self.rect.topleft[1]
+        self.p1_score_tens.rect.topleft = self.rect.topleft
         self.p2_score_ones.rect.topright = self.rect.topright
+        self.p2_score_tens.rect.topright = (self.rect.topright[0] - (self.p2_score_ones.get_width() + self.p2_score_ones.get_stroke_width())), self.rect.topright[1]
 
         self.p1_score_ones.set_value(self.p1_score)
         self.p2_score_ones.set_value(self.p2_score)
@@ -33,8 +38,13 @@ class Scoreboard:
     def p1_point(self):
         self.p1_score += 1
 
+        # check if tens value should be activated
+
+        self.p1_score_ones.set_value(self.p1_score)
+
     def p2_point(self):
         self.p2_score += 1
+        self.p2_score_ones.set_value(self.p2_score)
 
     def update(self):
         super().update()

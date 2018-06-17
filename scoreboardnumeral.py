@@ -49,6 +49,12 @@ class ScoreboardNumeral(pygame.sprite.Sprite):
     def get_size(self):
         return self.rect.size
 
+    def get_width(self):
+        return self.size / 2
+
+    def get_stroke_width(self):
+        return int(self.size / 8)
+
     def _init_digit_shapes(self):
         return (
             (self.rect.topleft, self.rect.topright, self.rect.bottomright, self.rect.bottomleft, self.rect.topleft),
