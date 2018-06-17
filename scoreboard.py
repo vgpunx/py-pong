@@ -21,7 +21,8 @@ class Scoreboard:
         self.p2_score_tens = ScoreboardNumeral(self.size[1], 'WHITE', 'BLACK', self.numerals)
 
         # Numeral positions on the scoreboard
-        self.p1_score_ones.rect.topleft = (self.rect.topleft[0] + self.p1_score_ones.get_width() + self.p1_score_ones.get_stroke_width()), self.rect.topleft[1]
+        self.p1_score_ones.rect.topleft = (self.rect.topleft[0] + self.p1_score_ones.get_width() +
+                                           self.p1_score_ones.get_stroke_width()), self.rect.topleft[1]
         self.p1_score_tens.rect.topleft = self.rect.topleft
         self.p2_score_ones.rect.topright = self.rect.topright
         self.p2_score_tens.rect.topright = (self.rect.topright[0] - (self.p2_score_ones.get_width() + self.p2_score_ones.get_stroke_width())), self.rect.topright[1]
@@ -36,9 +37,17 @@ class Scoreboard:
         surface.blit(self.image, self.position)
 
     def p1_point(self):
-        self.p1_score += 1
+        # Check to ensure the single-digit bounds are not exceeded
+        if self.p1_score_ones.value == 9 and self.p1_score_tens.value == 9:
+            self.p1_score_ones.set_value(0)
+            self.p1_score_tens.set_value(0)
 
-        # check if tens value should be activated
+        elif self.p1_score_ones.value == 9:
+            self.p1_score_ones.set_value(0)
+            self.p1_score_tens.set_value(self.p1_score_tens.value + 1)
+
+        else:
+            self.p1_score_ones.set_value(self.p1_score_ones.value + 1)
 
         self.p1_score_ones.set_value(self.p1_score)
 
