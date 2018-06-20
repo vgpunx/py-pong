@@ -10,7 +10,9 @@ class Ball(pygame.sprite.Sprite):
         self.image.fill(pygame.Color('WHITE'))
         self.rect = self.image.get_rect()
         self.rect.center = bounds[2] / 2, bounds[3] / 2
+        self.default_pos = bounds[2] / 2, bounds[3] / 2
         self.bounds = bounds
+        self.start_angle = 130
 
         # Flag to let the game know when the ball is in play so a round can be started with SPACE
         self.in_play = False
@@ -50,7 +52,7 @@ class Ball(pygame.sprite.Sprite):
     def start_round(self):
         # Used to start the round when space is pressed
         self.set_speed(5)
-        self.set_angle(130)
+        self.set_angle(self.start_angle)
         self.in_play = True
 
     def update(self):
@@ -58,3 +60,19 @@ class Ball(pygame.sprite.Sprite):
         self.pos = self.move()
         # Update the actual position of the ball based with the stored position data
         self.rect.center = self.pos
+
+    def reset_pos(self):
+        # Reset the position, angle and velocity of the ball to default
+        self.rect.center = self.default_pos
+        self.pos = self.default_pos
+        self.set_speed(0)
+        self.in_play = False
+
+        # Change the angle from the previous start angle
+        if self.start_angle == 130:
+            self.start_angle = 50
+            return
+
+        elif self.start_angle == 50:
+            self.start_angle = 130
+            return

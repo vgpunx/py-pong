@@ -8,9 +8,6 @@ class Scoreboard:
         self.image = pygame.Surface(self.size)
         self.rect = self.image.get_rect()
 
-        self.p1_score = 0
-        self.p2_score = 0
-
         self.position = (((DISPLAY_SIZE[0] / 2) - (self.size[0] / 2)), DISPLAY_SIZE[1] * 0.01)
 
         # instantiate numerals
@@ -27,8 +24,10 @@ class Scoreboard:
         self.p2_score_ones.rect.topright = self.rect.topright
         self.p2_score_tens.rect.topright = (self.rect.topright[0] - (self.p2_score_ones.get_width() + self.p2_score_ones.get_stroke_width())), self.rect.topright[1]
 
-        self.p1_score_ones.set_value(self.p1_score)
-        self.p2_score_ones.set_value(self.p2_score)
+        self.p1_score_ones.set_value(0)
+        self.p1_score_tens.set_value(0)
+        self.p2_score_ones.set_value(0)
+        self.p2_score_tens.set_value(0)
 
     def draw(self, surface):
         self.image.fill(pygame.Color('BLACK'))
@@ -49,11 +48,18 @@ class Scoreboard:
         else:
             self.p1_score_ones.set_value(self.p1_score_ones.value + 1)
 
-        self.p1_score_ones.set_value(self.p1_score)
-
     def p2_point(self):
-        self.p2_score += 1
-        self.p2_score_ones.set_value(self.p2_score)
+        # Check to ensure the single-digit bounds are not exceeded
+        if self.p2_score_ones.value == 9 and self.p2_score_tens.value == 9:
+            self.p2_score_ones.set_value(0)
+            self.p2_score_tens.set_value(0)
+
+        elif self.p2_score_ones.value == 9:
+            self.p2_score_ones.set_value(0)
+            self.p2_score_tens.set_value(self.p2_score_tens.value + 1)
+
+        else:
+            self.p2_score_ones.set_value(self.p2_score_ones.value + 1)
 
     def update(self):
         super().update()

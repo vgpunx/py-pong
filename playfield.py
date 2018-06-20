@@ -38,9 +38,15 @@ class Playfield:
             self.ball.bounce(vec(1, 0))
             return
 
-        # This block implements left and right boundary bouncing for test purposes only and should be removed.
-        elif self.ball.rect.right >= self.rect.right or self.ball.rect.left <= self.rect.left:
-            self.ball.bounce(vec(0, 1))
+        # Left and right boundary handling
+        elif self.ball.rect.right >= self.rect.right:
+            self.ball.reset_pos()
+
+            return
+
+        elif self.ball.rect.left <= self.rect.left:
+            self.ball.reset_pos()
+
             return
 
         # Handle collision with paddle
