@@ -4,6 +4,9 @@ from playfield import *
 
 class Scoreboard:
     def __init__(self, plfld_size):
+        """
+        :param plfld_size: tuple
+        """
         self.size = ((plfld_size[0] * 0.2), (plfld_size[1] * 0.13))
         self.image = pygame.Surface(self.size)
         self.rect = self.image.get_rect()

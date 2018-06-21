@@ -1,4 +1,3 @@
-from constants import *
 from ball import *
 from paddle import *
 from pygame.math import Vector2 as vec
@@ -6,6 +5,9 @@ from pygame.math import Vector2 as vec
 
 class Playfield:
     def __init__(self, size):
+        """
+        :param size: tuple
+        """
         self.size = size
         self.image = pygame.Surface(size)
         self.rect = self.image.get_rect()
@@ -35,7 +37,6 @@ class Playfield:
         self.p2_point_event = pygame.USEREVENT + 2
 
     def process_collision(self):
-        # TODO: This method will handle all sprite collision in the game, and use ball.bounce to process bouncing.
         # Top and bottom boundary bouncing
         if self.ball.rect.top <= self.rect.top or self.ball.rect.bottom >= self.rect.bottom:
             self.ball.bounce(vec(1, 0))
@@ -43,13 +44,13 @@ class Playfield:
 
         # Left and right boundary handling
         elif self.ball.rect.right >= self.rect.right:
-            self.ball.set_start_angle(50)   # Set the start angle
+            self.ball.set_start_angle(50)   # Set the start angle for p2 to serve
             self.ball.reset_pos()
             pygame.event.post(pygame.event.Event(self.p1_point_event))
             return
 
         elif self.ball.rect.left <= self.rect.left:
-            self.ball.set_start_angle(130)
+            self.ball.set_start_angle(130)  # Set the start angle for p1 to serve
             self.ball.reset_pos()
             pygame.event.post(pygame.event.Event(self.p2_point_event))
             return
@@ -82,17 +83,13 @@ class Playfield:
             if paddle_bounce_angle == 180:
                 paddle_bounce_angle += angle_offset
 
+            # Set the angle of the ball and increment its speed
             self.ball.set_angle(paddle_bounce_angle)
             self.ball.increase_speed()
 
-            # self.ball.bounce(vec(0, 1))
-
     def draw(self, surface):
         self.all_sprites.clear(self.image, self.background)
-
         self.all_sprites.draw(self.image)
-
-        # blit from self.image to self.position
         surface.blit(self.image, self.position)
 
     def update(self):

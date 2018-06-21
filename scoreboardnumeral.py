@@ -1,5 +1,6 @@
 import pygame
 
+
 class ScoreboardNumeral(pygame.sprite.Sprite):
     def __init__(self, height, fg_color, bg_color, *groups, value=0):
         """
