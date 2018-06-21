@@ -7,6 +7,10 @@ from pygame.math import Vector2 as vec
 class Paddle(pygame.sprite.Sprite):
     # paddle sprite
     def __init__(self, x, y):
+        """
+        :param x: int
+        :param y: int
+        """
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((PADDLE_WIDTH, PADDLE_HEIGHT))  # What the sprite looks like
         self.image.fill(pygame.Color('GREEN'))  # fill the Surface with the color Green

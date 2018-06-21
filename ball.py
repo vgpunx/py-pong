@@ -1,12 +1,16 @@
 import pygame
+from constants import *
 from pygame.math import Vector2 as vec
 
 
 class Ball(pygame.sprite.Sprite):
     # ball sprite
     def __init__(self, bounds):
+        """
+        :param bounds: tuple
+        """
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((10, 10))
+        self.image = pygame.Surface((int(DISPLAY_SIZE[0] / 102.4), int(DISPLAY_SIZE[1] / 57.6)))
         self.image.fill(pygame.Color('WHITE'))
         self.rect = self.image.get_rect()
         self.rect.center = bounds[2] / 2, bounds[3] / 2
