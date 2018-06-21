@@ -31,6 +31,9 @@ class Playfield:
 
         self.image.blit(self.background, self.rect.topleft)
 
+        self.p1_point_event = pygame.USEREVENT + 1
+        self.p2_point_event = pygame.USEREVENT + 2
+
     def process_collision(self):
         # TODO: This method will handle all sprite collision in the game, and use ball.bounce to process bouncing.
         # Top and bottom boundary bouncing
@@ -41,12 +44,12 @@ class Playfield:
         # Left and right boundary handling
         elif self.ball.rect.right >= self.rect.right:
             self.ball.reset_pos()
-
+            pygame.event.post(pygame.event.Event(self.p1_point_event))
             return
 
         elif self.ball.rect.left <= self.rect.left:
             self.ball.reset_pos()
-
+            pygame.event.post(pygame.event.Event(self.p2_point_event))
             return
 
         # Handle collision with paddle

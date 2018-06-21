@@ -22,12 +22,21 @@ clock = pygame.time.Clock()
 playfield = Playfield(PLAYFIELD_SIZE)
 scoreboard = Scoreboard(PLAYFIELD_SIZE)
 
+# Instantiate events
+# p1_point_event = pygame.USEREVENT()
+# p2_point_event = pygame.USEREVENT()
+
 # Main game loop
 while not done:
     # main event loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        elif event.type == playfield.p1_point_event:
+            scoreboard.p1_point()
+        elif event.type == playfield.p2_point_event:
+            scoreboard.p2_point()
+
 
     pygame.event.pump()
 
