@@ -12,7 +12,7 @@ class Ball(pygame.sprite.Sprite):
         self.rect.center = bounds[2] / 2, bounds[3] / 2
         self.default_pos = bounds[2] / 2, bounds[3] / 2
         self.bounds = bounds
-        self.start_angle = 130
+        self.start_angle = 130  # Either 50 or 130
 
         # Flag to let the game know when the ball is in play so a round can be started with SPACE
         self.in_play = False
@@ -23,12 +23,19 @@ class Ball(pygame.sprite.Sprite):
         self.angle = 0.0
         # Speed - in pixels
         self.speed = 0
+        self.max_speed = 15
         # Velocity - I believe this is a placeholder for update() method
         self.vel = vec(1, 0).rotate(self.angle) * self.speed
 
     # Bounce the ball.
     def bounce(self, collision_vector):
         self.vel = self.vel.reflect(collision_vector.rotate(90).normalize())
+
+    def increase_speed(self):
+        if self.speed < self.max_speed:
+            self.speed += 0.5
+        elif self.speed >= self.max_speed:
+            self.speed = self.max_speed
 
     def get_location(self):
         return self.pos
@@ -55,6 +62,10 @@ class Ball(pygame.sprite.Sprite):
         self.set_angle(self.start_angle)
         self.in_play = True
 
+    def set_start_angle(self, angle):
+        # Used to set the start angle for the next round
+        self.start_angle = angle
+
     def update(self):
         # Check for collision on the upcoming move and branch based on collision
         self.pos = self.move()
@@ -67,12 +78,3 @@ class Ball(pygame.sprite.Sprite):
         self.pos = self.default_pos
         self.set_speed(0)
         self.in_play = False
-
-        # Change the angle from the previous start angle
-        if self.start_angle == 130:
-            self.start_angle = 50
-            return
-
-        elif self.start_angle == 50:
-            self.start_angle = 130
-            return

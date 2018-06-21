@@ -43,11 +43,13 @@ class Playfield:
 
         # Left and right boundary handling
         elif self.ball.rect.right >= self.rect.right:
+            self.ball.set_start_angle(50)   # Set the start angle
             self.ball.reset_pos()
             pygame.event.post(pygame.event.Event(self.p1_point_event))
             return
 
         elif self.ball.rect.left <= self.rect.left:
+            self.ball.set_start_angle(130)
             self.ball.reset_pos()
             pygame.event.post(pygame.event.Event(self.p2_point_event))
             return
@@ -81,6 +83,7 @@ class Playfield:
                 paddle_bounce_angle += angle_offset
 
             self.ball.set_angle(paddle_bounce_angle)
+            self.ball.increase_speed()
 
             # self.ball.bounce(vec(0, 1))
 
