@@ -1,8 +1,10 @@
 from scoreboard import *
+from computer import ComputerPlayer
+from pygame.locals import *
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, CPUPlayerFlag):
         pygame.init()
 
         # Set the width and height of the screen [width, height)
@@ -20,6 +22,11 @@ class Game:
         # Instantiate objects
         self.playfield = Playfield(PLAYFIELD_SIZE)
         self.scoreboard = Scoreboard(PLAYFIELD_SIZE)
+
+        self.CPU_flag = CPUPlayerFlag
+        if self.CPU_flag:
+            self.CPUPlayer = ComputerPlayer(self.playfield)
+
 
     def run(self):
         # Main game loop
@@ -39,6 +46,7 @@ class Game:
             self.screen.fill(BLACK)
 
             # draw the playfield to the screen
+            self.CPUPlayer.update()
             self.playfield.update()
             self.playfield.draw(self.screen)
 
@@ -52,11 +60,12 @@ class Game:
             if key_state[pygame.K_s]:
                 self.playfield.paddle1.move_down()
 
-            # Check for player 2 inputs
-            if key_state[pygame.K_UP]:
-                self.playfield.paddle2.move_up()
-            if key_state[pygame.K_DOWN]:
-                self.playfield.paddle2.move_down()
+            if not self.CPU_flag:
+                # Check for player 2 inputs
+                if key_state[pygame.K_UP]:
+                    self.playfield.paddle2.move_up()
+                if key_state[pygame.K_DOWN]:
+                    self.playfield.paddle2.move_down()
 
             # Check for space bar to start the round if needed
             if key_state[pygame.K_SPACE] and not self.playfield.ball.in_play:
