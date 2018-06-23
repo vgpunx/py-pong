@@ -5,6 +5,7 @@ from pygame.locals import *
 
 class Game:
     def __init__(self, **kwargs):
+        pygame.mixer.pre_init(channels=1, buffer=128)
         pygame.init()
 
         # Set the width and height of the screen [width, height)
