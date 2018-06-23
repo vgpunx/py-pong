@@ -3,7 +3,7 @@ import random
 
 class ComputerPlayer:
 
-    def __init__(self, playfield, difficulty):
+    def __init__(self, playfield, difficulty=0.75):
         # keep track of the playfield state
         self._playfield = playfield
 
