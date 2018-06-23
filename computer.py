@@ -1,67 +1,123 @@
-import pygame
 import random
-from pygame.locals import *
-from constants import *
 
 
 class ComputerPlayer:
 
-    def __init__(self, playfield):
-        # keep track of the ball
-        self.__playfield = playfield
+    def __init__(self, playfield, difficulty):
+        # keep track of the playfield state
+        self._playfield = playfield
 
-        # randomizer
+        # random.Random().monty_python_quote()
+        # "All right, but apart from the sanitation, medicine, education, wine, public order, irrigation, roads, the
+        # fresh water system and public health, what have the Romans ever done for us?"
         self.rng = random.Random()
 
-        # timer
-        self.limits = (180, 300)
-        self.__timer = 0
-        self.__limit = self.rng.randint(self.limits[0], self.limits[1])
+        # timers
+        # this is used to govern how long to be in each state
+        self.state_timer_minmax = (180, 500)
+        self._state_timer = 0
+        self._state_timer_limit = self.set_timer_limit(self.state_timer_minmax)
 
-        # logic
-        # 0 is none, 1 is up, 2 is down
-        self.__direction = self.rng.randint(0, 1)
-        # 0 is false, 1 is true
-        self.__playhard = self.rng.randint(0, 1)
-        # self.__playhard = 1
+        # this is used to govern the duration of random paddle movements in passive state
+        self.move_timer_minmax = (30, 120)
+        self._move_timer = 0
+        self._move_timer_limit = self.set_timer_limit(self.move_timer_minmax)
+
+        # state
+        # True = be a dick; False = fuck about
+        self.difficulty = difficulty
+        self._aggressive_state = self._decide_state()
+
+        # random movement direction
+        # 0 = up; 1 = none; 2 = down
+        self._random_move_direction = self._decide_direction()
+
+    def __repr__(self):
+        strings = (
+            "--CPU Player--",
+            "Difficulty level: {0}".format(self.difficulty),
+            "Aggressive state: {0}".format(self._aggressive_state),
+            "State limit: {0}".format(self._state_timer_limit),
+            "Direction: {0}".format(self._random_move_direction)
+        )
+
+        return "\n".join(strings)
 
     def update(self):
-        if self.__timer >= self.__limit:
-            self._decide_aggressive()
+        if self._state_timer >= self._state_timer_limit:
+            self._state_timer = 0
+            self._state_timer_limit = self.set_timer_limit(self.state_timer_minmax)
+            self._aggressive_state = self._decide_state()
 
-        self.__direction = self._decide_direction()
+        if self._aggressive_state:
+            self._move_aggressive(self._playfield.paddle2)
+        else:
+            self._move_random(self._playfield.paddle2)
 
-        # commit the movement.  we're always moving
-        if self.__direction == 1:
-            self.__playfield.paddle2.move_down()
-        elif self.__direction == 0:
-            self.__playfield.paddle2.move_up()
+        self._state_timer += 1
 
-        self.__timer += 1
+    def set_timer_limit(self, limits):
+        """
+        Returns a random integer value between two values supplied as a collection.
+        :param limits: Tuple
+        :return: Integer
+        """
+        return self.rng.randint(limits[0], limits[1])
+
+    def _decide_state(self):
+        """
+        Returns a weighted random Boolean value.
+        :return: Boolean
+        """
+        return random.choices([True, False], weights=[self.difficulty, 1.0 - self.difficulty])[0]
 
     def _decide_direction(self):
-        direction = self.__direction
+        """
+        Returns a random integer between 0 and 2 representing 3 possible directions.
+        :return: Integer
+        """
+        return self.rng.randint(0, 2)
 
-        if self.__playhard == 1:
-            if self.__playfield.ball.rect.centery > self.__playfield.paddle2.rect.bottom:
-                direction = 1
-            elif self.__playfield.ball.rect.centery < self.__playfield.paddle2.rect.top:
-                direction = 0
-            else:
-                direction = direction
+    def _move_aggressive(self, paddle):
+        """
+        Moves a Paddle object in an aggressive manner to actively try to hit the ball.
+        :param paddle: py-pong.paddle.Paddle
+        :return: None
+        """
+        if self._playfield.ball.rect.centery > self._playfield.paddle2.rect.bottom:
+            paddle.move_down()
+            return None
+        elif self._playfield.ball.rect.centery < self._playfield.paddle2.rect.top:
+            paddle.move_up()
+            return None
 
+    def _move_random(self, paddle):
+        """
+        Causes a paddle object to move in a random direction for a random period of time within limits.
+        :param paddle: py-pong.paddle.Paddle
+        :return: None
+        """
+        # this is the fuckabout function
+        self._move_timer += 1
 
-        else:
-        # if we hit the playfield edge
-            if self.__playfield.paddle2.rect.top <= self.__playfield.rect.top:
-                direction = 1
-            elif self.__playfield.paddle2.rect.bottom >= self.__playfield.rect.bottom:
-                direction = 0
+        if self._move_timer >= self._move_timer_limit:
+            self._move_timer_limit = self.set_timer_limit(self.move_timer_minmax)
+            self._move_timer = 0
+            self._random_move_direction = self._decide_direction()
 
-        return direction
+        # turn around if we hit the sides
+        if paddle.rect.top <= self._playfield.rect.top:
+            self._random_move_direction = 2
+        elif paddle.rect.bottom >= self._playfield.rect.bottom:
+            self._random_move_direction = 0
 
-    def _decide_aggressive(self):
-        if self.__timer == self.limits[1]:
-            self.__timer = 0
-            self.__playhard = self.rng.randint(0, 1)
-            self.__limit = self.rng.randint(self.limits[0], self.limits[1])
+        # commit the move
+        if self._random_move_direction == 2:
+            paddle.move_down()
+            return None
+        elif self._random_move_direction == 1:
+            # this is only here to show that this is explicitly being handled
+            return None
+        elif self._random_move_direction == 0:
+            paddle.move_up()
+            return None

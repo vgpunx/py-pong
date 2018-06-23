@@ -4,7 +4,7 @@ from pygame.locals import *
 
 
 class Game:
-    def __init__(self, CPUPlayerFlag):
+    def __init__(self, **kwargs):
         pygame.init()
 
         # Set the width and height of the screen [width, height)
@@ -23,9 +23,9 @@ class Game:
         self.playfield = Playfield(PLAYFIELD_SIZE)
         self.scoreboard = Scoreboard(PLAYFIELD_SIZE)
 
-        self.CPU_flag = CPUPlayerFlag
+        self.CPU_flag = kwargs.pop('CPU_flag')
         if self.CPU_flag:
-            self.CPUPlayer = ComputerPlayer(self.playfield)
+            self.CPUPlayer = ComputerPlayer(self.playfield, kwargs.pop('CPU_difficulty'))
 
 
     def run(self):
@@ -46,7 +46,9 @@ class Game:
             self.screen.fill(BLACK)
 
             # draw the playfield to the screen
-            self.CPUPlayer.update()
+            if self.CPU_flag:
+                self.CPUPlayer.update()
+
             self.playfield.update()
             self.playfield.draw(self.screen)
 
