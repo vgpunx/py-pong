@@ -28,7 +28,6 @@ class Game:
         if self.CPU_flag:
             self.CPUPlayer = ComputerPlayer(self.playfield, kwargs.pop('CPU_difficulty'))
 
-
     def run(self):
         # Main game loop
         while not self.done:
