@@ -25,6 +25,7 @@ class ComputerPlayer:
 
         # state
         # True = be a dick; False = fuck about
+        self._start_difficulty = difficulty
         self.difficulty = difficulty
         self._aggressive_state = self._decide_state()
 
@@ -36,6 +37,7 @@ class ComputerPlayer:
         strings = (
             "--CPU Player--",
             "Difficulty level: {0}".format(self.difficulty),
+            "Base difficulty level: {0}".format(self._start_difficulty),
             "Aggressive state: {0}".format(self._aggressive_state),
             "State limit: {0}".format(self._state_timer_limit),
             "Direction: {0}".format(self._random_move_direction)
@@ -45,6 +47,7 @@ class ComputerPlayer:
 
     def update(self):
         if self._state_timer >= self._state_timer_limit:
+            self.difficulty = self._adapt_difficulty()
             self._state_timer = 0
             self._state_timer_limit = self.set_timer_limit(self.state_timer_minmax)
             self._aggressive_state = self._decide_state()
@@ -121,3 +124,32 @@ class ComputerPlayer:
         elif self._random_move_direction == 0:
             paddle.move_up()
             return None
+
+    def _adapt_difficulty(self):
+        """
+        Adjusts the probability weight used to select aggressive mode based on the score difference.
+        :return: float
+        """
+
+        delta = self._playfield.p1_score - self._playfield.p2_score
+        result = self.difficulty
+
+        if delta <= -5:
+            result = self._valmap(delta, -10, -5, 0.0, self._start_difficulty)
+
+        elif delta >= 5:
+            result = self._valmap(delta, 5, 10, self._start_difficulty, 1.0)
+
+        return result
+
+    def _valmap(self, value, in_min, in_max, out_min, out_max):
+        """
+        Maps a given value that falls within the input range and scales it to the output range.
+        :param value: integer or float
+        :param in_min: integer or float
+        :param in_max: integer or float
+        :param out_min: integer or float
+        :param out_max: integer or float
+        :return: float
+        """
+        return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
