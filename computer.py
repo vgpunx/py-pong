@@ -134,10 +134,10 @@ class ComputerPlayer:
         delta = self._playfield.p1_score - self._playfield.p2_score
         result = self.difficulty
 
-        if delta <= -5:
-            result = self._valmap(delta, -10, -5, 0.0, self._start_difficulty)
+        if delta <= -4:
+            result = self._valmap(delta, -10, -5, self._start_difficulty, result)
 
-        elif delta >= 5:
+        elif delta >= 4:
             result = self._valmap(delta, 5, 10, self._start_difficulty, 1.0)
 
         return result
@@ -152,4 +152,5 @@ class ComputerPlayer:
         :param out_max: integer or float
         :return: float
         """
+
         return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
