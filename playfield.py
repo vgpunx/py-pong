@@ -37,6 +37,10 @@ class Playfield:
         self.p1_point_event = pygame.USEREVENT + 1
         self.p2_point_event = pygame.USEREVENT + 2
 
+        # Track player score
+        self.p1_score = 0
+        self.p2_score = 0
+
         # Sound
         self._sound_wall = pygame.mixer.Sound(os.path.join(os.path.curdir, 'sfx', 'ping_pong_8bit_plop.wav'))
         self._sound_padl = pygame.mixer.Sound(os.path.join(os.path.curdir, 'sfx', 'ping_pong_8bit_beeep.wav'))
@@ -53,6 +57,7 @@ class Playfield:
         elif self.ball.rect.right >= self.rect.right:
             self.ball.set_start_angle(50)   # Set the start angle for p2 to serve
             self.ball.reset_pos()
+            self.p1_score += 1
             pygame.event.post(pygame.event.Event(self.p1_point_event))
             self._sound_goal.play()
             return
@@ -60,6 +65,7 @@ class Playfield:
         elif self.ball.rect.left <= self.rect.left:
             self.ball.set_start_angle(130)  # Set the start angle for p1 to serve
             self.ball.reset_pos()
+            self.p2_score += 1
             pygame.event.post(pygame.event.Event(self.p2_point_event))
             self._sound_goal.play()
             return
@@ -103,5 +109,11 @@ class Playfield:
         surface.blit(self.image, self.position)
 
     def update(self):
+        # reset player score if it advances beyond 99
+        if self.p1_score > 99:
+            self.p1_score = 0
+        elif self.p2_score > 99:
+            self.p2_score = 0
+
         self.process_collision()
         self.all_sprites.update()
