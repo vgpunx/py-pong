@@ -1,3 +1,4 @@
+import os
 from ball import *
 from paddle import *
 from pygame.math import Vector2 as vec
@@ -36,9 +37,19 @@ class Playfield:
         self.p1_point_event = pygame.USEREVENT + 1
         self.p2_point_event = pygame.USEREVENT + 2
 
+        # Track player score
+        self.p1_score = 0
+        self.p2_score = 0
+
+        # Sound
+        self._sound_wall = pygame.mixer.Sound(os.path.join(os.path.curdir, 'sfx', 'ping_pong_8bit_plop.wav'))
+        self._sound_padl = pygame.mixer.Sound(os.path.join(os.path.curdir, 'sfx', 'ping_pong_8bit_beeep.wav'))
+        self._sound_goal = pygame.mixer.Sound(os.path.join(os.path.curdir, 'sfx', 'ping_pong_8bit_peeeeeep.wav'))
+
     def process_collision(self):
         # Top and bottom boundary bouncing
         if self.ball.rect.top <= self.rect.top or self.ball.rect.bottom >= self.rect.bottom:
+            self._sound_wall.play()
             self.ball.bounce(vec(1, 0))
             return
 
@@ -46,13 +57,17 @@ class Playfield:
         elif self.ball.rect.right >= self.rect.right:
             self.ball.set_start_angle(50)   # Set the start angle for p2 to serve
             self.ball.reset_pos()
+            self.p1_score += 1
             pygame.event.post(pygame.event.Event(self.p1_point_event))
+            self._sound_goal.play()
             return
 
         elif self.ball.rect.left <= self.rect.left:
             self.ball.set_start_angle(130)  # Set the start angle for p1 to serve
             self.ball.reset_pos()
+            self.p2_score += 1
             pygame.event.post(pygame.event.Event(self.p2_point_event))
+            self._sound_goal.play()
             return
 
         # Handle collision with paddle
@@ -86,6 +101,7 @@ class Playfield:
             # Set the angle of the ball and increment its speed
             self.ball.set_angle(paddle_bounce_angle)
             self.ball.increase_speed()
+            self._sound_padl.play()
 
     def draw(self, surface):
         self.all_sprites.clear(self.image, self.background)
@@ -93,5 +109,11 @@ class Playfield:
         surface.blit(self.image, self.position)
 
     def update(self):
+        # reset player score if it advances beyond 99
+        if self.p1_score > 99:
+            self.p1_score = 0
+        elif self.p2_score > 99:
+            self.p2_score = 0
+
         self.process_collision()
         self.all_sprites.update()

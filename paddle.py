@@ -13,7 +13,7 @@ class Paddle(pygame.sprite.Sprite):
         """
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((PADDLE_WIDTH, PADDLE_HEIGHT))  # What the sprite looks like
-        self.image.fill(pygame.Color('GREEN'))  # fill the Surface with the color Green
+        self.image.fill(pygame.Color('WHITE'))  # fill the Surface with the color Green
         self.rect = self.image.get_rect()   # The rectangle that encloses the sprite
         self.rect.center = (x, y)
         self.speed = 7
