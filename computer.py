@@ -24,7 +24,7 @@ class ComputerPlayer:
         self._move_timer_limit = self.set_timer_limit(self.move_timer_minmax)
 
         # state
-        # True = be a dick; False = fuck about
+        # True = be a jerk; False = monkey about
         self._start_difficulty = difficulty
         self.difficulty = difficulty
         self._aggressive_state = self._decide_state()
@@ -100,7 +100,7 @@ class ComputerPlayer:
         :param paddle: py-pong.paddle.Paddle
         :return: None
         """
-        # this is the fuckabout function
+        # this is the monkeying about function
         self._move_timer += 1
 
         if self._move_timer >= self._move_timer_limit:
